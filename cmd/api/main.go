@@ -9,6 +9,8 @@ import (
 	"github.com/revacholiere-moralist/cleanarch-go/internal/store"
 )
 
+const version = "0.0.1"
+
 func main() {
 	godotenv.Load()
 
@@ -16,12 +18,13 @@ func main() {
 		addr: env.GetString("ADDR", ":8080"),
 
 		db: dbConfig{
-			addr:           env.GetString("DB_ADDR", "postgres://postgres:-@localhost:5432/cleanarch?sslmode=disable"),
+			addr:           env.GetString("DB_ADDR", "postgres://postgres:KonchanDaisuk1!@localhost:5432/cleanarch?sslmode=disable"),
 			maxOpenConns:   env.GetInt("DB_MAX_OPEN_CONNS", 30),
 			maxIdleConns:   env.GetInt("DB_MAX_IDLE_CONNS", 30),
 			maxIdleTime:    env.GetInt("DB_MAX_IDLE_TIME", 900),
 			maxTimeOutTime: env.GetInt("DB_MAX_TIMEOUT_TIME", 5),
 		},
+		env: env.GetString("ENV", "development"),
 	}
 
 	db, err := db.New(
