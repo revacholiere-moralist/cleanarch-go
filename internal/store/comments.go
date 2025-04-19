@@ -47,3 +47,38 @@ func (s *CommentsStore) GetByPostID(ctx context.Context, postID int64) ([]model.
 
 	return comments, nil
 }
+
+func (s *CommentsStore) AddCommentsToPost(ctx context.Context, postID int64, userID int64, content string, comment *model.Comment) error {
+	query := `
+		INSERT INTO public.comments(
+			post_id, 
+			user_id, 
+			content
+		)
+		VALUES (
+			$1, 
+			$2, 
+			$3
+		)
+		RETURNING id, post_id, user_id, content;
+	`
+
+	err := s.db.QueryRowContext(
+		ctx,
+		query,
+		postID,
+		userID,
+		content,
+	).Scan(
+		&comment.ID,
+		&comment.PostID,
+		&comment.UserID,
+		&comment.Content,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
