@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"errors"
 	"net/http"
 	"strconv"
@@ -158,7 +157,7 @@ func (app *application) updatePostCommentsHandler(w http.ResponseWriter, r *http
 
 	if err != nil {
 		switch {
-		case errors.Is(err, sql.ErrNoRows):
+		case errors.Is(err, store.ErrNotFound):
 			app.notFoundError(w, r, err)
 			return
 		default:

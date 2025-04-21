@@ -14,7 +14,7 @@ type UsersStore struct {
 
 func (s *UsersStore) Create(ctx context.Context, user *model.User) error {
 	query := `
-		INSERT INTO posts (username, password, email)
+		INSERT INTO users (username, password, email)
 		VALUES ($1, $2, $3) 
 		RETURNING id, created_at, updated_at
 	`
